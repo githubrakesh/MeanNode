@@ -1,0 +1,23 @@
+{
+  "name": "mean-node",
+  "version": "0.0.0",
+  "description": "MeanNode",
+  "main": "server.js",
+  "author": {
+    "name": "rsahu",
+    "email": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "express-session": "^1.14.0",
+    "mongoose": "^4.5.7",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "winston": "^2.2.0"
+  }
+}

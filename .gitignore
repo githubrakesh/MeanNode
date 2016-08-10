@@ -1,0 +1,5 @@
+node_modules
+rakzdev-cert.pem
+rakzdev-key.pem
+certrequest.csr
+env
