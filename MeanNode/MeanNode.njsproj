@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\controllers\apiauth.server.controller.js" />
     <Compile Include="app\controllers\index.server.controller.js" />
     <Compile Include="app\controllers\tickets.server.controller.js" />
     <Compile Include="app\controllers\users.server.controller.js" />

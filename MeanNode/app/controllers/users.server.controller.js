@@ -1,5 +1,7 @@
 var User = require('mongoose').model('User'),
-    passport = require('passport');
+    passport = require('passport'),   
+    apiauth = require('./apiauth.server.controller.js');
+
 
 var getErrorMessage = function (err) {
     var message = '';
@@ -154,17 +156,18 @@ exports.saveOAuthUserProfile = function (req, profile, done) {
                 User.findUniqueUsername(possibleUserName, null, function (availableUserName) {
                     profile.username = availableUserName;
                     user = new User(profile);
+                    user.token = apiauth.getToken(user);
                     user.save(function (err) {
                         if (err) {
-                            var message = _this.getErrorMessage(err);
+                            var message = getErrorMessage(err);
                             req.flash('error', message);
                             return res.redirect('/signup');
-                        
                         }
                         return done(err, user);
                     });
                 });
             } else {
+                user.token = apiauth.getToken(user);
                 return done(err, user);
             }
         }

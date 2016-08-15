@@ -4,14 +4,16 @@ var config = require('./config'),
     bodyParser = require('body-parser'),
     flash = require('connect-flash'),
     session = require('express-session'),
-    winston = require('winston');
+    winston = require('winston'),
+    apiauth = require('../app/controllers/apiauth.server.controller');
+
+//unless = require('express-unless');
 
 
 module.exports = function () {
     var app = express();
     
     app.set('port_https', config.httpsport);
-    
     
     app.all('*', function (req, res, next) {
         /*
@@ -42,7 +44,20 @@ module.exports = function () {
     });
     
     //autenticated api requests
-    //app.all('/api/v1/*', [require('./middlewares/validateRequest')]);
+    app.all('/api/v1/*', function (req, res, next) {
+        
+        var token = req.headers['x-access-token'];
+        if (token) {            
+            apiauth.verifyToken(token, req);          
+        
+        } else {
+            return res.status(403).send({
+                success: false, 
+                message: 'No token provided.'
+            });
+      
+        }
+    });
     
     app.use(bodyParser.urlencoded({
         extended: true
@@ -53,7 +68,7 @@ module.exports = function () {
     app.use(session({
         saveUninitialized: true,
         resave: true,
-        secret: 'OurSuperSecretCookieSecret'
+        secret: config.sessionSecret
     }));
     
     

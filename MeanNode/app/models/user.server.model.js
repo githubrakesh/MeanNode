@@ -1,19 +1,27 @@
 var mongoose = require('mongoose'),
-    crypto = require("crypto"),
+    crypto = require('crypto'),
     Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
     name: String,
-    email: { type: String, index: true },
+    email: { type: String, index: true , lowercase: true, unique: true },
     username: {
         type: String,
         trim: true,
         unique: true
     },
-    password: String,
+    password: {
+        type: String
+    },
     provider: String,
     providerId: String,
     providerData: {},
+    role: {
+        type: String,
+        enum: ['Member', 'Client', 'Owner', 'Admin'],
+        default: 'Member'
+    },
+    token: String,
     todos: {}//we will use this in the next tutorial to store TODOs
 });
 
