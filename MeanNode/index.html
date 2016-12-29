@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script src='/channel/bcsocket.js'></script>
+    <script src="/share.js"></script>
+    <script>
+        var s = new BCSocket(null, { reconnect: true });
+        var sjs = new window.sharejs.Connection(s);
+        var doc = sjs.get('users1', 'sephx');
+        doc.subscribe();
+        doc.whenReady(function () {
+            if (!doc.type) doc.create('text');
+            if (doc.type && doc.type.name === 'text') {
+                console.log('doc ready, data: ', doc.getSnapshot());
+                doc.attachTextarea(document.getElementById('pad'));
+            }
+        });
+
+    </script>
+</head>
+<body>
+    <textarea id="pad"></textarea>
+</body>
