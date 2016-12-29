@@ -9,17 +9,22 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "browserchannel": "^2.0.0",
+    "bson": "^0.5.7",
     "connect-flash": "^0.1.1",
-    "ejs": "^2.5.1",
+    "ejs": "^2.5.5",
     "express": "^4.14.0",
     "express-jwt": "^3.4.0",
-    "express-session": "^1.14.0",
-    "jsonwebtoken": "^7.1.9",
-    "mongoose": "^4.5.7",
+    "express-session": "^1.14.2",
+    "jsonwebtoken": "^7.2.1",
+    "livedb": "^0.5.13",
+    "livedb-mongo": "^0.4.1",
+    "mongoose": "^4.7.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "winston": "^2.2.0"
+    "share": "^0.7.40",
+    "winston": "^2.3.0"
   }
 }
