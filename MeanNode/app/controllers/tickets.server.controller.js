@@ -1,4 +1,7 @@
-﻿var Ticket = require('mongoose').model('Ticket');
+﻿/*jslint node: true */
+
+"use strict";
+let Ticket = require('mongoose').model('Ticket');
 
 exports.list = function (req, res, next) {
     Ticket.find({}, function (err, tickets) {
@@ -46,8 +49,7 @@ exports.delete = function (req, res, next) {
 };
 
 exports.create = function (req, res, next) {
-    var ticket = new Ticket(req.body);
-    debugger;
+    var ticket = new Ticket(req.body);    
     ticket.save(function (err) {
         if (err) {
             return next(err);

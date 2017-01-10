@@ -1,9 +1,11 @@
-﻿var mongoose = require('mongoose'), 
-    Schema = mongoose.Schema;
+﻿/*jslint node: true */
 
+"use strict";
+const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var TicketSchema = new Schema({
-    title: String,   
+let TicketSchema = new Schema({
+    title: String,
     assigne: {
         type: String
     },

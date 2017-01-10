@@ -1,4 +1,4 @@
-﻿var tickets = require('../../app/controllers/tickets.server.controller');
+﻿const tickets = require('../../app/controllers/tickets.server.controller');
 
 module.exports = function (app) {
     app.route('/api/v1/tickets')

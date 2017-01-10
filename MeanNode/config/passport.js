@@ -1,13 +1,16 @@
-var passport = require('passport'),
-    mongoose = require('mongoose');
+/*jslint node: true */
+
+"use strict";
+const passport = require('passport');
+const mongoose = require('mongoose');
 
 module.exports = function () {
-    var User = mongoose.model('User');
-    
+    let User = mongoose.model('User');
+
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
-    
+
     passport.deserializeUser(function (id, done) {
         User.findOne(
             { _id: id },
@@ -17,7 +20,7 @@ module.exports = function () {
             }
         );
     });
-    
+
     require('./strategies/local.js')();
     require('./strategies/facebook.js')();
     require('./strategies/twitter.js')();

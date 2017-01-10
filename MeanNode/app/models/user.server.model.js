@@ -1,10 +1,13 @@
-var mongoose = require('mongoose'),
-    crypto = require('crypto'),
-    Schema = mongoose.Schema;
+/*jslint node: true */
 
-var UserSchema = new Schema({
+"use strict";
+const mongoose = require('mongoose');
+const crypto = require('crypto');
+let Schema = mongoose.Schema;
+
+let UserSchema = new Schema({
     name: String,
-    email: { type: String, index: true , lowercase: true, unique: true },
+    email: { type: String, index: true, lowercase: true, unique: true },
     username: {
         type: String,
         trim: true,
@@ -27,25 +30,25 @@ var UserSchema = new Schema({
 
 UserSchema.pre('save',
     function (next) {
-    if (this.password) {
-        var md5 = crypto.createHash('md5');
-        this.password = md5.update(this.password).digest('hex');
+        if (this.password) {
+            var md5 = crypto.createHash('md5');
+            this.password = md5.update(this.password).digest('hex');
+        }
+        next();
     }
-    next();
-}
 );
 
 UserSchema.methods.authenticate = function (password) {
     var md5 = crypto.createHash('md5');
     md5 = md5.update(password).digest('hex');
-    
+
     return this.password === md5;
 };
 
 UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
     var _this = this;
     var possibleUsername = username + (suffix || '');
-    
+
     _this.findOne(
         { username: possibleUsername },
         function (err, user) {

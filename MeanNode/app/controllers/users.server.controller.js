@@ -1,9 +1,13 @@
-var User = require('mongoose').model('User'),
-    passport = require('passport'),   
-    apiauth = require('./apiauth.server.controller.js');
+/*jslint node: true */
+
+"use strict";
+
+const User = require('mongoose').model('User');
+const passport = require('passport');
+const apiauth = require('./apiauth.server.controller.js');
 
 
-var getErrorMessage = function (err) {
+let getErrorMessage = function (err) {
     var message = '';
     if (err.code) {
         switch (err.code) {
@@ -110,14 +114,14 @@ exports.userByID = function (req, res, next, id) {
         _id: id
     },
         function (err, user) {
-        if (err) {
-            return next(err);
+            if (err) {
+                return next(err);
+            }
+            else {
+                req.user = user;
+                next();
+            }
         }
-        else {
-            req.user = user;
-            next();
-        }
-    }
     );
 };
 
@@ -145,7 +149,7 @@ exports.delete = function (req, res, next) {
 exports.saveOAuthUserProfile = function (req, profile, done) {
     
     User.findOne({
-        provider: profile.provider, 
+        provider: profile.provider,
         providerId: profile.providerId
     }, function (err, user) {
         if (err) {
