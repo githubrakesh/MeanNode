@@ -7,4 +7,4 @@ let CategorySchema = new Schema({
     name: { type: String, unique: true, lowercase: true }
 });
 
-mongoose.model('Category', CategorySchema);
+module.exports = mongoose.model('Category', CategorySchema);

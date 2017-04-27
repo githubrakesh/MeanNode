@@ -21,4 +21,4 @@ ProductSchema.plugin(mongoosastic, {
     auth: config.elasticsearch.auth
 });
 
-mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', ProductSchema);

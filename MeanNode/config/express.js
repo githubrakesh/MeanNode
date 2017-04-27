@@ -29,7 +29,7 @@ module.exports = function () {
             });
         */
 
-        logger.log('info', 'Hello distributed log files!');
+        logger.log('info', 'Request Url :' + req.url);
         // CORS headers       
         res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -52,7 +52,7 @@ module.exports = function () {
     app.all('/api/v1/*', function (req, res, next) {
         var token = req.headers['x-access-token'];
         if (token) {
-            apiauth.verifyToken(token, req);
+            apiauth.verifyToken(token, req, next);
 
         } else {
             return res.status(403).send({
@@ -94,6 +94,7 @@ module.exports = function () {
     require('../app/routes/users.server.routes')(app);
     require('../app/routes/tickets.server.routes')(app);
     require('../app/routes/admin.server.routes')(app);
+    require('../app/routes/shop.server.routes')(app);
 
     app.use(express.static('./public'));
 

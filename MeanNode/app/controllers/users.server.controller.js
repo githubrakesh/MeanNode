@@ -2,12 +2,11 @@
 
 "use strict";
 
-const User = require('mongoose').model('User');
+const User = require('../models/user.server.model');
 const passport = require('passport');
-const apiauth = require('./apiauth.server.controller.js');
+const apiauth = require('./apiauth.server.controller');
 
-
-let getErrorMessage = function (err) {
+const _getErrorMessage = function (err) {
     var message = '';
     if (err.code) {
         switch (err.code) {
@@ -59,15 +58,15 @@ exports.register = function (req, res, next) {
         user.provider = 'local';
         user.save(function (err) {
             if (err) {
-                var message = getErrorMessage(err);
+                var message = _getErrorMessage(err);
                 req.flash('error', message);
                 return res.redirect('/register');
             }
-            
+
             req.login(user, function (err) {
                 if (err)
                     return next(err);
-                
+
                 return res.redirect('/');
             });
         });
@@ -147,7 +146,7 @@ exports.delete = function (req, res, next) {
 };
 
 exports.saveOAuthUserProfile = function (req, profile, done) {
-    
+
     User.findOne({
         provider: profile.provider,
         providerId: profile.providerId
@@ -163,9 +162,9 @@ exports.saveOAuthUserProfile = function (req, profile, done) {
                     user.token = apiauth.getToken(user);
                     user.save(function (err) {
                         if (err) {
-                            var message = getErrorMessage(err);
+                            var message = _getErrorMessage(err);
                             req.flash('error', message);
-                            return res.redirect('/signup');
+                            //return res.redirect('/signup');
                         }
                         return done(err, user);
                     });

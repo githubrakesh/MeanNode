@@ -1,7 +1,7 @@
 ﻿/*jslint node: true */
 
 "use strict";
-let Ticket = require('mongoose').model('Ticket');
+const Ticket = require('../models/ticket.server.model');
 
 exports.list = function (req, res, next) {
     Ticket.find({}, function (err, tickets) {

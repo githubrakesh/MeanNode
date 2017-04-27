@@ -15,4 +15,4 @@ let TicketSchema = new Schema({
     comment: String
 });
 
-mongoose.model('Ticket', TicketSchema);
+module.exports = mongoose.model('Ticket', TicketSchema);

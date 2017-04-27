@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 let Schema = mongoose.Schema;
 
-let UserSchema = new Schema({
+const UserSchema = new Schema({
     name: String,
     email: { type: String, index: true, lowercase: true, unique: true },
     username: {
@@ -24,8 +24,7 @@ let UserSchema = new Schema({
         enum: ['Member', 'Client', 'Owner', 'Admin'],
         default: 'Member'
     },
-    token: String,
-    todos: {}//we will use this in the next tutorial to store TODOs
+    token: String
 });
 
 UserSchema.pre('save',
@@ -66,4 +65,4 @@ UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
         }
     );
 };
-mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

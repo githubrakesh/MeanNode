@@ -1,8 +1,8 @@
 /*jslint node: true */
 
 "use strict";
-let Category = require('mongoose').model('Category');
-let Product = require('mongoose').model('Product');
+const Category = require('../models/category.server.model');
+const Product = require('../models/product.server.model');
 const async = require('async');
 const faker = require('faker');
 
@@ -22,12 +22,12 @@ module.exports = {
     addFakerProduct: function (req, res, next) {
         async.waterfall([
             function (callback) {
-                Category.findOne({ name: req.params.name }, function (err, category) {
+                Category.findOne({ name: req.params.categoryName }, function (err, category) {
                     if (err) return next(err);
                     callback(null, category);
                 });
             },
-            function (callback, category) {
+            function (category, callback) {
                 for (var i = 0; i < 20; i++) {
                     var product = new Product();
                     product.category = category._id;
@@ -46,7 +46,7 @@ module.exports = {
         res.json({ message: 'added successfully' });
     },
     getProductsByCategory: function (req, res, next) {
-        getProductsByCategory(req, res, function (products) {
+        _getProductsByCategory(req, res, function (products) {
             res.json(products);
         });
     },
@@ -72,21 +72,21 @@ module.exports = {
 
     },
     getProductById: function (req, res, next) {
-        getProductById(req, res, function (product) {
+        _getProductById(req, res, function (product) {
             res.json(product);
         });
     },
 
     //TO Do - get it loading
     renderProductsByCategory: function (req, res, next) {
-        getProductsByCategory(req, res, function (products) {
+        _getProductsByCategory(req, res, function (products) {
             res.render('category', { products: products });
         });
     },
     syncProductstoElastic: function (req, res, next) {
-        syncProductstoElastic(next);
+        _syncProductstoElastic(next);
     },
-    searchProduct : function (req, res, next) {
+    searchProduct: function (req, res, next) {
         if (req.query.q) {
             Product.search({ query_string: { query: req.query.q } },
                 function (err, results) {
@@ -98,11 +98,11 @@ module.exports = {
                 });
         }
     }
-
 };
 
-let getProductsByCategory = function (req, res, next) {
-    Product.find({ category: req.params.id })
+const _getProductsByCategory = function (req, res, next) {
+    let par = !req.params.categoryId ? {} : { category: req.params.categoryId };
+    Product.find(par)
         .populate('category')
         .exec(function (err, products) {
             if (err) return next(err);
@@ -110,14 +110,14 @@ let getProductsByCategory = function (req, res, next) {
         });
 };
 
-let getProductById = function (req, res, next) {
+const _getProductById = function (req, res, next) {
     Product.findById({ _id: req.params.Id }, function (err, product) {
         if (err) return next(err);
         next(product);
     });
 };
 
-let syncProductstoElastic = function (callback) {
+const _syncProductstoElastic = function (callback) {
 
     Product.createMapping(function (err, mapping) {
         if (err) {

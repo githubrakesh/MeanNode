@@ -11,12 +11,14 @@ module.exports = function (app) {
     app.route('/api/faker/addProduct/:categoryName')
         .get(admin.addFakerProduct);
 
-    app.route('/api/products/:categoryId')
+    app.route('/api/v1/products/:categoryId')
         .get(admin.getProductsByCategory);
-    app.route('/api/product/:Id')
+    app.route('/api/v1/products')
+        .get(admin.getProductsByCategory);
+    app.route('/api/v1/product/:Id')
         .get(admin.getProductById);
 
-    app.route('/api/elastic/product/syncProductstoElastic')
+    app.route('/api/v1/elastic/product/syncProductstoElastic')
         .get(admin.syncProductstoElastic);
     app.route('/products/:categoryId')
         .get(admin.renderProductsByCategory);
